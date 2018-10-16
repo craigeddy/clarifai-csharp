@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Clarifai.API;
+using NUnit.Framework;
 
 namespace Clarifai.IntegrationTests
 {
@@ -29,6 +30,14 @@ namespace Clarifai.IntegrationTests
         private readonly Random _random = new Random(Guid.NewGuid().GetHashCode());
 
         private readonly string _assetsDir = "Assets";
+
+        [SetUp]
+        public void SetUp()
+        {
+            if(string.IsNullOrWhiteSpace(
+                Environment.GetEnvironmentVariable("CLARIFAI_API_KEY") ))
+                Assert.Inconclusive("CLARIFAI_API_KEY environment variable missing");
+        }
 
         protected string GenerateRandomID()
         {
